@@ -9,7 +9,7 @@ var client_dir = '../client';
 console.log(client_dir)
 app.use(express.static(client_dir));
 
-console.log(entities.init());
+entities.init();
 
 app.listen(3000);
 console.log('listening on port 3000');

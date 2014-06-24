@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo -u postgres psql -c "CREATE ROLE super_rap LOGIN UNENCRYPTED PASSWORD 'super_rap' SUPERUSER INHERIT CREATEDB NOCREATEROLE"
+sudo -u postgres psql -c "CREATE DATABASE super_rap"
+echo 'enter super_rap password (super_rap)'
+psql -h 127.0.0.1 -U super_rap -c "select 'super_rap is ready to go'"
