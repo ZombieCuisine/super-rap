@@ -11,5 +11,12 @@ app.use(express.static(client_dir));
 
 entities.init();
 
+// setup the api route
+var api = require('./routes/api');
+
+app.use('/api', api);
+
 app.listen(3000);
 console.log('listening on port 3000');
+
+module.exports = app;

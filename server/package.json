@@ -9,7 +9,7 @@
         "url"       : "http://github.com/ZombieCuisine/super-rap.git"
     },
     "dependencies": {
-        "express"     : "3.x",
+        "express"     : "4.x",
         "pg.js"       : "3.x",
         "migrate"     : "0.1.3"
     }
