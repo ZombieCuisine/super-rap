@@ -1,0 +1,14 @@
+{
+    "name"          : "super-rap",
+    "description"   : "A service for trying out web apps with client and server using javascript",
+    "author"        : "Ryan Jameson <ryan.jameson@gmail.com>",
+    "private"       : true,
+    "version"       : "0.0.1",
+    "repository"    : {
+        "type"      : "git",
+        "url"       : "http://github.com/ZombieCuisine/super-rap.git"
+    },
+    "dependencies": {
+        "express"     : "3.x"
+    }
+}
