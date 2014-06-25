@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var config = require('./config');
+console.log(config.conString);
 var express = require('express');
 var app = express();
 var cookies = require('cookies');
