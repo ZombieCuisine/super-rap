@@ -6,37 +6,37 @@ var app = angular.module('superRap', [
 app.config(['$routeProvider',
         function($routeProvider) {
             $routeProvider.when(
-                '/heroes', {
-                    templateUrl: 'partials/heroes-list.html',
-                    controller: 'HeroListCtrl'
+                '/people', {
+                    templateUrl: 'partials/people-list.html',
+                    controller: 'PeopleListCtrl'
             }).when(
-                '/hero-form', {
-                    templateUrl: 'partials/hero-form.html',
-                    controller: 'HeroFormCtrl'
+                '/person-form', {
+                    templateUrl: 'partials/person-form.html',
+                    controller: 'PersonFormCtrl'
             }).otherwise({
-                redirectTo: '/heroes'
+                redirectTo: '/people'
             });
         }]);
 
-app.controller('HeroFormCtrl', function($scope, $http, $location) {
-    $scope.createHero = function(hero) {
-        console.log('creating hero ' + hero);
-        $http.post('/api/heroes', hero).success(function(data, status, headers, config) {
+app.controller('PersonFormCtrl', function($scope, $http, $location) {
+    $scope.createPerson = function(person) {
+        console.log('creating person ' + person);
+        $http.post('/api/people', person).success(function(data, status, headers, config) {
             console.log('success');
-            $scope.newhero = {};
-            $location.path('/heroes');
+            $scope.newperson = {};
+            $location.path('/people');
         }).error(function(data, status, headers, config) { 
             console.log('failed'); 
         });
     };
 });
 
-app.controller('HeroListCtrl', function($scope, $http) {
-    $scope.title = 'Heroes';
+app.controller('PeopleListCtrl', function($scope, $http) {
+    $scope.title = 'People';
 
     function load() {
-        $http.get('/api/heroes').success(function(data, status, headers, config) {
-            $scope.heroes = data
+        $http.get('/api/people').success(function(data, status, headers, config) {
+            $scope.people = data
         }).error(function(data, status, headers, config) {
             console.log('failed');
         });
