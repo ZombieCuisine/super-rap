@@ -4,20 +4,15 @@
     <title>Super RaP</title>
     <link rel="stylesheet" href="css/app.css">
     <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
     <script src="js/app.js"></script>
   </head>
   <body ng-app="superRap">
     <h1>Super RaP</h1>
     {{ 'angular is ready' + '!' }}
-    <div ng-controller="HeroCtrl">
-        <a>{{title}}</a>
-        <h2>Create a hero</h2>
-        <form>
-            Name: <input type='text' ng-model='newhero.name' /><br/>
-            <button ng-click="createHero(newhero)">SAVE</button>
-        </form>
-
-    </div>
+    <a href='#/hero-form'>Add new hero</a>
+    <a href='#/heroes-list'>See all heroes</a>
+    <div ng-view></div>
   </body>
 </html>
 
