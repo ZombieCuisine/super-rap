@@ -15,8 +15,15 @@ router.post('/people', function(req, res, next) {
     res.send(204);
 });
 
+router.get('/people/:id', function(req, res, next) {
+    console.log(req.cookies.get('ego_id'));
+    console.log(req.params.id);
+    res.send(200, {id: 1, name: 'Batman', skills: ['rich', 'dark']});
+});
+
 router.get('/alterego', function(req, res, next) {
-    var ego = {id: 1}; // lookup person
+    console.log(req.query.id);
+    var ego = {id: 1, name: 'Invisible Man'}; // lookup person
     if (!ego) {
         res.send(400, 'ego not found');
     } else {
