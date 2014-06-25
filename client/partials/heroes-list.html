@@ -1,3 +1,13 @@
-<div ng-controller='HeroCtrl'>
+<div>
     <a>{{title}}</a>
+    <table>
+        <tr>
+            <th>Hero Name</th>
+            <th>Skills</th>
+        </tr>
+        <tr ng-repeat='hero in heroes'>
+            <td>{{hero.name}}</td>
+            <td></td>
+        </tr>
+    </table>
 </div>
