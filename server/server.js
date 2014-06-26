@@ -20,7 +20,16 @@ entities.init();
 // setup the api route
 var api = require('./routes/api');
 
-app.use('/api', api);
+var peopleHandler = require('./handlers/people');
+var alterEgoHandler = require('./handlers/alterego');
+
+handlers = {
+    people : peopleHandler,
+    alterego : alterEgoHandler
+}
+
+api.setup(handlers);
+app.use('/api', api.router);
 
 app.listen(3000);
 console.log('listening on port 3000');
