@@ -1,14 +1,12 @@
 <div>
-    <a>{{title}}</a>
+    <div>{{title}}</div>
     <table>
         <tr>
             <th>Name</th>
-            <th>Skills</th>
             <th>Actions</th>
         </tr>
         <tr ng-repeat='person in people'>
-            <td>{{person.name}}</td>
-            <td></td>
+            <td><a href='#/person/{{person.id}}'>{{person.name}}</a></td>
             <td><button ng-controller='AlterEgoCtrl' ng-click='assumeEgo(person.id)'>assume ego</button></td>
         </tr>
     </table>

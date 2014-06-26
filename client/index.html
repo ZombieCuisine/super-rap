@@ -2,17 +2,36 @@
 <html>
   <head>
     <title>Super RaP</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-cookies.min.js"></script>
     <script src="js/app.js"></script>
   </head>
   <body ng-app="superRap" ng-controller='AppCtrl'>
-    <h1>Super RaP</h1>
-    <h2 ng-show='currentEgo'>Currently assumed ego: {{currentEgo.name}}</h2>
-    <h2 ng-hide='currentEgo'>Currently acting as nobody</h2>
-    <a href='#/person-form'>Add new person</a>
-    <a href='#/people-list'>See all people</a>
+      <nav class='navbar navbar-default' role='navigation'>
+        <div class='container-fluid'>
+            <div class='navbar-header'>
+                <a class='navbar-brand' href='#'>Super RaP</a>
+            </div>
+            <ul class='nav navbar-nav'>
+                <li><a href='#/people'>People</a></li>
+                <li><a href='#/person-form'>Add Person</a></li>
+            </ul>
+            <ul class='nav navbar-nav navbar-right'>
+                <li>
+                <p class='navbar-text' ng-show='currentEgo'>
+                <a href='#/person/{{currentEgo.id}}'>{{currentEgo.name}}</a>
+                </p>
+                <p class='navbar-text' ng-hide='currentEgo'>Nobody</p>
+                </li>
+                <li ng-show='currentEgo'>
+                <a ng-controller='AlterEgoCtrl' ng-click='becomeNobody()'>Become a nobody</a>
+                </li>
+            </ul>
+        </div>
+      </nav>
     <div ng-view></div>
   </body>
 </html>
