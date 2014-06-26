@@ -17,6 +17,7 @@
         "massive"     : "",
         "async"       : "",
         "mocha"       : "",
-        "should"      : ""
+        "should"      : "",
+        "supertest"   : ""
     }
 }
