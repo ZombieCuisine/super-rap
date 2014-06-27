@@ -12,7 +12,7 @@ var _createTable = function(callback){
     });
 }
 var _dropTable = function(callback){
-    this.db.run('drop table ' + this.table, function(e, r){
+    this.db.run('drop table if exists ' + this.table, function(e, r){
         if(e){ throw e; }
         callback(null, r)
     });
@@ -46,7 +46,7 @@ var _find = function(callback){
     });
 }
 var _connect = function(callback){
-    massive.connect(config.conString, function(e, db){
+    massive.connect(config.conString(), function(e, db){
         if(e) { throw e; }
         callback(db);
     });

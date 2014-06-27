@@ -3,10 +3,14 @@ var request = require('supertest');
 var data = require('../data');
 var util = require('util');
 var async = require('async');
+var config = require('../config');
 
 describe('Api', function() {
-    url = 'http://localhost:3000';
+    console.log('config.env: ' + config.env);
+    var url;
     before(function(done) {
+        url = 'http://localhost:' + config.listenPort();
+        console.log('url: ' + url);
         data.destroyPerson({}, function(result) { done(); });
     });
     describe('People', function() {

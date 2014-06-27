@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 
 var config = require('./config');
-console.log(config.conString);
+console.log(process.argv);
+args = process.argv.slice(2);
+if (args.length == 1) {
+    console.log('running for env: ' + args[0]);
+    config.env = args[0];
+}
+console.log('connect to database ' + config.conString());
+
 var express = require('express');
 var app = express();
 var cookies = require('cookies');
@@ -31,7 +38,7 @@ handlers = {
 api.setup(handlers);
 app.use('/api', api.router);
 
-app.listen(3000);
-console.log('listening on port 3000');
+app.listen(config.listenPort());
+console.log('listening on port ' + config.listenPort());
 
 module.exports = app;
