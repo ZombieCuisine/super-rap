@@ -27,13 +27,13 @@ var _update = function(callback){
     });
 };
 var _destroy = function(callback){
-    this.db[this.table].destroy(query).execute(function(e, r){
+    this.db[this.table].destroy(this.query).execute(function(e, r){
         if(e){ throw e; }
         callback(r);
     });
 }
 var _find = function(callback){
-    this.db[this.table].find(query).execute(function(e, r){
+    this.db[this.table].find(this.query).execute(function(e, r){
         if(e){ throw e; }
         callback(r);
     });
