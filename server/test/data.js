@@ -1,6 +1,6 @@
 var async = require('async');
 var should = require('should');
-var data = require('../data-core');
+var data = require('../data');
 
 describe('Person Tests', function(){
     it('should allow CRUD on a person', function(done){

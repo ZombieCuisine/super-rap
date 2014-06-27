@@ -97,7 +97,10 @@ exports.find = function(table, query, callback){
         _find.bind(context)(callback);
     });
 }
-function titleCase(name){
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// data access method generation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+function _titleCase(name){
     var segments = name.split('_');
     var clean = []
     for(var i = 0; i < segments.length; i++){
@@ -107,25 +110,32 @@ function titleCase(name){
     return clean.join('');
 }
 for(name in schema.tables){
-    var title = titleCase(name);
-    console.log(title);
+    var title = _titleCase(name);
+    console.log('Generating data access methods for ' + name);
     var context = { tableName : name };
     // create
-    exports['create' + title] = function(data, callback){
+    var methodName = 'create' + title;
+    console.log('\t adding method ' + methodName);
+    exports[methodName] = function(data, callback){
         exports.insert(this.tableName, data, callback);
     }.bind(context);
     // update
-    exports['update' + title] = function(data, query, callback){
+    methodName = 'update' + title;
+    console.log('\t adding method ' + methodName);
+    exports[methodName] = function(data, query, callback){
         exports.update(this.tableName, data, query, callback);
     }.bind(context);
     // find
-    exports['find' + title] = function(query, callback){
+    methodName = 'find' + title;
+    console.log('\t adding method ' + methodName);
+    exports[methodName] = function(query, callback){
         exports.find(this.tableName, query, callback);
     }.bind(context);
     // destroy
-    exports['destroy' + title] = function(query, callback){
+    methodName = 'destroy' + title;
+    console.log('\t adding method ' + methodName);
+    exports[methodName] = function(query, callback){
         exports.destroy(this.tableName, query, callback);
     }.bind(context);
-
 }
 
