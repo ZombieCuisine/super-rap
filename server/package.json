@@ -18,6 +18,7 @@
         "async"       : "",
         "mocha"       : "",
         "should"      : "",
-        "supertest"   : ""
+        "supertest"   : "",
+        "sugar"       : ""
     }
 }

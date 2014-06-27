@@ -1,4 +1,5 @@
 var config = require('./config');
+var sugar = require('sugar');
 var async = require('async');
 var massive = require('massive');
 var schema = require('./schema');
@@ -63,13 +64,13 @@ exports.createTables = function(tables, callback){
 exports.dropTables = function(tables, callback){
     _connect(function(db){
         var jobs = []
-        for(var i = 0; i < tables.length; i++){
+        tables.each(function(table){
             var context = {
                 db      : db,
-                table    : tables[i],
+                table    : table,
             }
             jobs.push(_dropTable.bind(context));
-        }
+        });
         async.parallel(jobs, callback);
     });
 }
@@ -103,10 +104,9 @@ exports.find = function(table, query, callback){
 function _titleCase(name){
     var segments = name.split('_');
     var clean = []
-    for(var i = 0; i < segments.length; i++){
-        var x = segments[i];
-        clean.push(x.substring(0, 1).toUpperCase() + x.substring(1, x.length));
-    }
+    segments.each(function(s){
+        clean.push(s.titleize());
+    })
     return clean.join('');
 }
 for(name in schema.tables){
@@ -138,4 +138,3 @@ for(name in schema.tables){
         exports.destroy(this.tableName, query, callback);
     }.bind(context);
 }
-
