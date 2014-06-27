@@ -1,6 +1,7 @@
 var async = require('async');
 var should = require('should');
 var data = require('../data');
+var util = require('util');
 
 describe('Person Tests', function(){
     it('should allow CRUD on a person', function(done){
@@ -38,5 +39,12 @@ describe('Person Tests', function(){
             });
         }
         async.waterfall([create, find, update, find, destroy], function(){ done(); });
+    });
+    it('should return empty array if person not found', function(done) {
+        data.findPerson({id : 0}, function(found){
+            console.log('found: ' + util.inspect(found));
+            found.should.have.lengthOf(0);
+            done();
+        });
     });
 })

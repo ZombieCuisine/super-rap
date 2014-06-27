@@ -1,9 +1,14 @@
 var should = require('should');
 var request = require('supertest');
-var util = require('./util');
+var data = require('../data');
+var util = require('util');
+var async = require('async');
 
 describe('Api', function() {
     url = 'http://localhost:3000';
+    before(function(done) {
+        data.destroyPerson({}, function(result) { done(); });
+    });
     describe('People', function() {
         describe('Without data', function() {
             it('should return an empty list', function(done) {
@@ -14,15 +19,21 @@ describe('Api', function() {
                     if (err) {
                         throw err;
                     }
-                    res.body.should.equal([]);
+                    res.body.should.be.an.instanceOf(Array).and.have.lengthOf(0);
                     done();
                 });
             });
         });
         describe('With data', function() {
-            before(function() {
-                util.createPerson('Batman', true);
-                util.createPerson('Robin', false);
+            before(function(done) {
+                async.parallel([
+                    function(callback) {
+                        data.createPerson({name: 'Superman', superhuman: true}, function(result) { callback(); });
+                    },
+                    function(callback) {
+                        data.createPerson({name: 'Batman', superhuman: false}, function(result) { callback(); });
+                    }
+                ], done);
             });
             it('should return people', function(done) {
                 request(url).get('/api/people/')
@@ -32,9 +43,15 @@ describe('Api', function() {
                     if (err) {
                         throw err;
                     }
-                    res.body.should.equal([{
-                        name: 'Batman', id: 1},{
-                        name: 'Robin', id: 2}]);
+                    res.body.should.have.lengthOf(2);
+                    res.body.should.containDeep([{
+                        name: 'Superman',
+                        superhuman: true}]);
+                    res.body.should.containDeep([{
+                        name: 'Batman',
+                        superhuman: false}]);
+                    res.body[0].should.have.property('id');
+                    res.body[1].should.have.property('id');
                     done();
                 });
             });

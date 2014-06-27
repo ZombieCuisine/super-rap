@@ -1,15 +1,20 @@
+var data = require('../data');
+
 function getEgo(req, res, next) {
     console.log(req.query.id);
     if (req.query.id) {
-        var ego = {id: 1, name: 'Invisible Man'}; // lookup person
-        if (!ego) {
-            res.send(400, 'ego not found');
-        } else {
-            console.log('ego: ' + ego.id + ', ' + ego.name);
-            res.cookies.set('ego_id', ego.id, {httpOnly: false});
-            res.cookies.set('ego_name', ego.name, {httpOnly: false});
-            res.send(200, ego)
-        }
+        data.findPerson({id: req.query.id}, function(person) {
+            if (!person || person.length == 0) {
+                res.send(400, 'ego not found');
+            } else {
+                console.log(person);
+                person = person[0];
+                console.log('ego: ' + person.id + ', ' + person.name);
+                res.cookies.set('ego_id', person.id, {httpOnly: false});
+                res.cookies.set('ego_name', person.name, {httpOnly: false});
+                res.send(200, person)
+            }
+        });
     } else {
         // logout
         console.log('logging out');

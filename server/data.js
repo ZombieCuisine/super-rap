@@ -38,7 +38,11 @@ var _destroy = function(callback){
 var _find = function(callback){
     this.db[this.table].find(this.query).execute(function(e, r){
         if(e){ throw e; }
-        callback(r);
+        if (r.hasOwnProperty('oid')) {
+            callback([]);
+        } else {
+            callback(r);
+        }
     });
 }
 var _connect = function(callback){

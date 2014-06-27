@@ -9,11 +9,15 @@ router.use(function(req, res, next) {
 });
 
 function setup(handlers) {
-    router.get('/people', handlers.people.getPeople);
-    router.post('/people', handlers.people.createPerson);
-    router.get('/people/:id', handlers.people.getPerson);
+    router.route('/people')
+        .get(handlers.people.getPeople)
+        .post(handlers.people.createPerson);
 
-    router.get('/alterego', handlers.alterego.getEgo);
+    router.route('/people/:id')
+        .get(handlers.people.getPerson);
+
+    router.route('/alterego')
+        .get(handlers.alterego.getEgo);
 }
 
 
