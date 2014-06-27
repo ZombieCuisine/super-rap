@@ -1,8 +1,8 @@
-var db = require('../data-core');
+var data = require('../data');
 var schema = require('../schema');
 
 exports.up = function(next){
-    db.createTables(schema.tables, next);
+    data.createTables(schema.tables, next);
 };
 
 exports.down = function(next){
@@ -10,5 +10,5 @@ exports.down = function(next){
     for(name in schema.tables){
         tableNames.push(name);
     }
-    db.dropTables(tableNames, next);
+    data.dropTables(tableNames, next);
 };
