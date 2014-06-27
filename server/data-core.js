@@ -1,6 +1,7 @@
 var config = require('./config');
 var async = require('async');
 var massive = require('massive');
+var schema = require('./schema');
 
 var _createTable = function(callback){
     this.db.createTable(this.name, this.columns).execute(function(e, r){
@@ -96,3 +97,35 @@ exports.find = function(table, query, callback){
         _find.bind(context)(callback);
     });
 }
+function titleCase(name){
+    var segments = name.split('_');
+    var clean = []
+    for(var i = 0; i < segments.length; i++){
+        var x = segments[i];
+        clean.push(x.substring(0, 1).toUpperCase() + x.substring(1, x.length));
+    }
+    return clean.join('');
+}
+for(name in schema.tables){
+    var title = titleCase(name);
+    console.log(title);
+    var context = { tableName : name };
+    // create
+    exports['create' + title] = function(data, callback){
+        exports.insert(this.tableName, data, callback);
+    }.bind(context);
+    // update
+    exports['update' + title] = function(data, query, callback){
+        exports.update(this.tableName, data, query, callback);
+    }.bind(context);
+    // find
+    exports['find' + title] = function(query, callback){
+        exports.find(this.tableName, query, callback);
+    }.bind(context);
+    // destroy
+    exports['destroy' + title] = function(query, callback){
+        exports.destroy(this.tableName, query, callback);
+    }.bind(context);
+
+}
+
