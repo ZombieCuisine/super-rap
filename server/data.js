@@ -1,5 +1,6 @@
+require('sugar');
 var config = require('./config');
-var sugar = require('sugar');
+var format = require('util').format;
 var async = require('async');
 var massive = require('massive');
 var schema = require('./schema');
@@ -101,39 +102,31 @@ exports.find = function(table, query, callback){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // data access method generation
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-function _titleCase(name){
-    var segments = name.split('_');
-    var clean = []
-    segments.each(function(s){
-        clean.push(s.titleize());
-    })
-    return clean.join('');
-}
 for(name in schema.tables){
-    var title = _titleCase(name);
+    var title = name.camelize(true);
     console.log('Generating data access methods for ' + name);
     var context = { tableName : name };
     // create
-    var methodName = 'create' + title;
-    console.log('\t adding method ' + methodName);
+    var methodName = format('create%s', title);
+    console.log('\t adding method %s', methodName);
     exports[methodName] = function(data, callback){
         exports.insert(this.tableName, data, callback);
     }.bind(context);
     // update
-    methodName = 'update' + title;
-    console.log('\t adding method ' + methodName);
+    methodName = format('update%s', title);
+    console.log('\t adding method %s', methodName);
     exports[methodName] = function(data, query, callback){
         exports.update(this.tableName, data, query, callback);
     }.bind(context);
     // find
-    methodName = 'find' + title;
-    console.log('\t adding method ' + methodName);
+    methodName = format('find%s', title);
+    console.log('\t adding method %s', methodName);
     exports[methodName] = function(query, callback){
         exports.find(this.tableName, query, callback);
     }.bind(context);
     // destroy
-    methodName = 'destroy' + title;
-    console.log('\t adding method ' + methodName);
+    methodName = format('destroy%s', title);
+    console.log('\t adding method %s', methodName);
     exports[methodName] = function(query, callback){
         exports.destroy(this.tableName, query, callback);
     }.bind(context);
