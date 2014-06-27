@@ -1,42 +1,27 @@
-var config = require('./config');
-var massive = require('massive');
-
-var _connect = function(callback){
-    massive.connect(config.conString, function(e, db){
-        if(e){ throw e; }
-        callback(db);
-    });
-}
+var data = require('./data-core');
+var using = data.using;
 // Persons
 exports.createPerson = function(person, callback){
-    _connect(function(db){
-        db.person.insert(person).execute(function(e, result){
-            if(e){ throw e; }
-            callback(result);
-        })
-    });
+    using.db(function(db, run){
+        var q = db.person.insert(person);
+        run(null, q);
+    }, callback);
 }
 exports.updatePerson = function(update, query, callback){
-    _connect(function(db){
-        db.person.update(update, query).execute(function(e, result){
-            if(e) { throw e; }
-            callback(result);
-        });
-    });
+    using.db(function(db, run){
+        var q = db.person.update(update, query);
+        run(null, q);
+    }, callback);
 }
 exports.findPerson = function(query, callback){
-    _connect(function(db){
-        db.person.find(query).execute(function(e, result){
-            if(e) { throw e; }
-            callback(result);
-        });
-    });
+    using.db(function(db, run){
+        var q = db.person.find(query);
+        run(null, q);
+    }, callback);
 }
 exports.destroyPerson = function(query, callback){
-    _connect(function(db){
-        db.person.destroy(query).execute(function(e, result){
-            if(e) { throw e; }
-            callback(result);
-        });
-    });
+    using.db(function(db, run){
+        var q = db.person.destroy(query);
+        run(null, q);
+    }, callback);
 }
