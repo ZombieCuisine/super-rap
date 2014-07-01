@@ -42,9 +42,23 @@ describe('Person Tests', function(){
     });
     it('should return empty array if person not found', function(done) {
         data.findPerson({id : 0}, function(found){
-            console.log('found: ' + util.inspect(found));
             found.should.have.lengthOf(0);
             done();
+        });
+    });
+    describe('bulk get', function() {
+        before(function(done) {
+            async.waterfall([
+                function(callback) { data.destroyPerson({}, function() { callback(); })},
+                function(callback) { data.createPerson({ name : 'Person One', superhuman : true }, function() { callback(); })},
+                function(callback) { data.createPerson({ name : 'Person Two', superhuman : false }, function() { callback(); })},
+                ], done);
+        });
+        it('should handle an array as an IN', function(done) {
+            data.findPerson({name : ['Person One', 'Person Two']}, function(found){
+                found.should.have.lengthOf(2);
+                done();
+            });
         });
     });
 })
